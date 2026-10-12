@@ -1,57 +1,77 @@
-import React from "react";
+"use client";
+
+import {
+  Braces,
+  Container,
+  Cpu,
+  Database,
+  GraduationCap,
+  Layers3,
+  Server,
+  Workflow,
+} from "lucide-react";
 import { RESUME_DATA } from "@/data/resume";
+import Reveal from "./Reveal";
+
+const stack = [
+  { icon: Braces, title: "TypeScript", category: "THE EVERYDAY LANGUAGE" },
+  {
+    icon: Layers3,
+    title: "React & Next.js",
+    category: "THOUGHTFUL INTERFACES",
+  },
+  { icon: Server, title: "Node.js", category: "SCALABLE BACKENDS" },
+  { icon: Cpu, title: "Gemini & OpenAI", category: "BOUNDED INTELLIGENCE" },
+  { icon: Database, title: "PostgreSQL", category: "RELIABLE DATA" },
+  { icon: Workflow, title: "Redis & BullMQ", category: "FAST, ASYNC SYSTEMS" },
+  { icon: Container, title: "Docker", category: "REPEATABLE DEPLOYMENTS" },
+  { icon: Braces, title: "Jest & Mocha", category: "CONFIDENCE IN THE CODE" },
+];
 
 export default function CompetencyTaxonomy() {
   return (
-    <section className="mb-16 scroll-mt-24" id="taxonomy">
-      <div className="border-2 border-blueprint-ink bg-blueprint-paper p-6 lg:p-8 shadow-[4px_4px_0px_#0c0d10]">
-        <div className="border-b border-blueprint-ink/20 pb-4 mb-6">
-          <span className="font-mono-spec text-xs text-blueprint-azure font-bold block mb-1">
-            TECHNICAL BENCH // TAXONOMY
-          </span>
-          <h2 className="font-serif-display text-4xl text-blueprint-ink">
-            Standardized Stack Competencies
-          </h2>
-        </div>
-
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 font-mono-spec">
-          {RESUME_DATA.competencies.map((c) => (
-            <div
-              key={c.id}
-              className="border border-blueprint-ink/20 p-4 bg-blueprint-bg flex flex-col justify-between"
+    <section id="stack" className="section section-anchor stack-section">
+      <div className="container">
+        <Reveal className="section-heading">
+          <div>
+            <span className="eyebrow">
+              <span className="section-number">03 /</span> MY TOOLKIT
+            </span>
+            <h2>
+              The right tools.
+              <br />
+              <span className="text-muted">For the right reasons.</span>
+            </h2>
+          </div>
+          <p>
+            A practical stack for turning an idea
+            <br />
+            into something people can rely on.
+          </p>
+        </Reveal>
+        <div className="stack-grid">
+          {stack.map(({ icon: Icon, title, category }, index) => (
+            <Reveal
+              key={title}
+              className="stack-card"
+              delay={(index % 4) * 0.04}
             >
-              <div>
-                <span className="text-[10px] text-blueprint-azure font-bold block mb-2">
-                  [{c.id}] {c.domain}
-                </span>
-                <h3 className="font-bold text-sm text-blueprint-ink mb-2">{c.title}</h3>
-                <ul className="space-y-1.5 text-xs text-blueprint-muted">
-                  {c.skills.map((s, idx) => (
-                    <li key={idx}>&bull; {s}</li>
-                  ))}
-                </ul>
-              </div>
-              <span className="text-[9px] text-blueprint-ink/40 mt-4 pt-2 border-t border-blueprint-rule block">
-                {c.tagline}
-              </span>
-            </div>
+              <span className="stack-card-number">0{index + 1}</span>
+              <Icon className="stack-icon" size={27} strokeWidth={1.5} />
+              <h3>{title}</h3>
+              <span className="eyebrow">{category}</span>
+            </Reveal>
           ))}
         </div>
-
-        {/* Academic Provenance */}
-        <div className="mt-6 pt-4 border-t border-blueprint-rule flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2 font-mono-spec text-xs">
+        <Reveal className="education">
+          <GraduationCap size={24} />
           <div>
-            <span className="text-blueprint-azure font-bold">ACADEMIC PROVENANCE: </span>
-            <span className="text-blueprint-ink font-semibold">{RESUME_DATA.education.degree}</span>
-            <span className="text-blueprint-muted">
-              {" "}
-              &bull; {RESUME_DATA.education.institution}
-            </span>
+            <span className="eyebrow">THE FOUNDATION</span>
+            <p>{RESUME_DATA.education.degree}</p>
+            <span>{RESUME_DATA.education.institution}</span>
           </div>
-          <span className="text-blueprint-muted">
-            GRADUATED: {RESUME_DATA.education.graduation.toUpperCase()}
-          </span>
-        </div>
+          <span className="education-year">Class of 2021</span>
+        </Reveal>
       </div>
     </section>
   );

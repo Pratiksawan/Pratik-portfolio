@@ -1,11 +1,14 @@
 import type { Metadata, Viewport } from "next";
-import { Instrument_Serif, JetBrains_Mono, Plus_Jakarta_Sans } from "next/font/google";
+import {
+  Space_Grotesk,
+  JetBrains_Mono,
+  Plus_Jakarta_Sans,
+} from "next/font/google";
 import "./globals.css";
 
-const instrumentSerif = Instrument_Serif({
-  weight: "400",
+const spaceGrotesk = Space_Grotesk({
   subsets: ["latin"],
-  variable: "--font-instrument-serif",
+  variable: "--font-space-grotesk",
   display: "swap",
 });
 
@@ -24,9 +27,9 @@ const plusJakartaSans = Plus_Jakarta_Sans({
 });
 
 export const metadata: Metadata = {
-  title: "PS-2026-AI-RLS Specification Specimen — Pratik Sawant",
+  title: "Pratik Sawant — AI & Full Stack Engineer",
   description:
-    "Architectural Patent Specimen of Pratik Sawant — AI / Full Stack Systems Engineer (4+ Yrs Exp) specializing in bounded LLM reasoning, Redis distributed concurrency, PostgreSQL RLS, and MotoDock Auto Workshop ERP.",
+    "Pratik Sawant is an AI and Full Stack Engineer with 4+ years of experience building intelligent products, scalable backends, and reliable enterprise systems. Explore MotoDock, client work, and the engineering behind it.",
   keywords: [
     "Pratik Sawant",
     "AI Systems Engineer",
@@ -39,14 +42,14 @@ export const metadata: Metadata = {
     "Redis",
     "MotoDock",
   ],
-  authors: [{ name: "Pratik Sawant", url: "https://github.com/pratiksawant542" }],
+  authors: [{ name: "Pratik Sawant", url: "https://github.com/Pratiksawan" }],
   icons: {
-    icon: "/favicon.ico",
+    icon: "/icon.svg",
   },
 };
 
 export const viewport: Viewport = {
-  themeColor: "#f8f8f5",
+  themeColor: "#101410",
   width: "device-width",
   initialScale: 1,
 };
@@ -60,13 +63,9 @@ export default function RootLayout({
     <html
       lang="en"
       suppressHydrationWarning
-      className={`${instrumentSerif.variable} ${jetbrainsMono.variable} ${plusJakartaSans.variable}`}
+      className={`${spaceGrotesk.variable} ${jetbrainsMono.variable} ${plusJakartaSans.variable}`}
     >
       <head>
-        <link
-          href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap"
-          rel="stylesheet"
-        />
         {/* Automatically purge stale service workers and PWA caches on localhost */}
         <script
           dangerouslySetInnerHTML={{
@@ -93,10 +92,10 @@ export default function RootLayout({
           }}
         />
       </head>
-      <body
-        suppressHydrationWarning
-        className="bg-blueprint-bg font-swiss-sans text-blueprint-ink selection:bg-blueprint-azure selection:text-white antialiased min-h-screen relative blueprint-grid"
-      >
+      <body suppressHydrationWarning className="antialiased min-h-screen">
+        <noscript>
+          <style>{`.reveal { opacity: 1 !important; transform: none !important; }`}</style>
+        </noscript>
         {children}
       </body>
     </html>

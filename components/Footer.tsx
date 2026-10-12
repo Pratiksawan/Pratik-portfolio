@@ -1,63 +1,129 @@
-import React from "react";
+"use client";
+
+import { useEffect, useRef, useState } from "react";
+import {
+  ArrowUp,
+  ArrowUpRight,
+  Check,
+  Copy,
+  Github,
+  Linkedin,
+} from "lucide-react";
 import { RESUME_DATA } from "@/data/resume";
+import Reveal from "./Reveal";
 
-interface FooterProps {
+export default function Footer({
+  onOpenDossier,
+}: {
   onOpenDossier: () => void;
-}
-
-export default function Footer({ onOpenDossier }: FooterProps) {
+}) {
+  const [copyStatus, setCopyStatus] = useState("");
+  const timer = useRef<ReturnType<typeof setTimeout> | null>(null);
+  useEffect(
+    () => () => {
+      if (timer.current) clearTimeout(timer.current);
+    },
+    [],
+  );
+  const copyEmail = async () => {
+    try {
+      await navigator.clipboard.writeText(RESUME_DATA.email);
+      setCopyStatus("Email copied");
+    } catch {
+      setCopyStatus("Please select the email address to copy it.");
+    }
+    if (timer.current) clearTimeout(timer.current);
+    timer.current = setTimeout(() => setCopyStatus(""), 3500);
+  };
   return (
-    <footer className="border-t-2 border-blueprint-ink bg-blueprint-paper py-10 px-4 sm:px-8 mt-12 font-mono-spec text-xs">
-      <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
-        <div>
-          <div className="flex items-center gap-2 font-bold text-blueprint-ink text-sm">
-            <span>⊕ SPEC-ARCHIVE-PS-2026</span>
-            <span className="text-blueprint-azure">|</span>
-            <span>{RESUME_DATA.name.toUpperCase()}</span>
-          </div>
-          <p className="text-blueprint-muted text-[11px] mt-1">
-            Architectural Patent Specimen &bull; Distributed Systems, AI Orchestration &amp; ACID
-            Concurrency.
-          </p>
-        </div>
-
-        <div className="flex flex-wrap items-center gap-6 text-[11px]">
-          <div>
-            <span className="text-blueprint-muted block text-[10px]">TELEGRAPH / VOICE:</span>
+    <footer id="contact" className="section-anchor">
+      <div className="container">
+        <Reveal className="contact-card">
+          <span className="eyebrow">
+            <span className="section-number">04 /</span> LET’S BUILD SOMETHING
+            GOOD
+          </span>
+          <div className="contact-heading">
+            <h2>
+              Your next idea.
+              <br />
+              Our next <span>conversation.</span>
+            </h2>
             <a
-              className="text-blueprint-ink font-bold hover:text-blueprint-azure transition-colors"
-              href={`tel:${RESUME_DATA.phone.replace(/\s+/g, "")}`}
-            >
-              {RESUME_DATA.phone}
-            </a>
-          </div>
-          <div>
-            <span className="text-blueprint-muted block text-[10px]">DISPATCH INBOX:</span>
-            <a
-              className="text-blueprint-azure font-bold underline"
+              className="contact-arrow"
               href={`mailto:${RESUME_DATA.email}`}
+              aria-label="Email Pratik Sawant"
             >
-              {RESUME_DATA.email}
+              <ArrowUpRight size={45} strokeWidth={1.3} />
             </a>
           </div>
-          <div>
-            <span className="text-blueprint-muted block text-[10px]">GEOGRAPHIC REGION:</span>
-            <span className="text-blueprint-ink font-semibold">Navi Mumbai, Maharashtra, IN</span>
+          <p>
+            Have a role, a project, or an interesting problem in mind?
+            <br />
+            I’d love to hear about it.
+          </p>
+          <div className="contact-actions">
+            <div className="email-group">
+              <a className="contact-email" href={`mailto:${RESUME_DATA.email}`}>
+                {RESUME_DATA.email}
+              </a>
+              <button
+                className="copy-button"
+                onClick={copyEmail}
+                aria-label="Copy email address"
+              >
+                {copyStatus === "Email copied" ? (
+                  <Check size={18} />
+                ) : (
+                  <Copy size={18} />
+                )}
+              </button>
+            </div>
+            <button className="button button-outline" onClick={onOpenDossier}>
+              Get my résumé <ArrowUpRight size={17} />
+            </button>
           </div>
-          <button
-            onClick={onOpenDossier}
-            className="px-3 py-1.5 bg-blueprint-ink text-white font-mono-spec text-xs font-bold hover:bg-blueprint-azure transition-colors"
-          >
-            INSPECT DOSSIER [⌘K]
-          </button>
+          <span className="copy-status" role="status">
+            {copyStatus}
+          </span>
+        </Reveal>
+        <div className="footer-bottom">
+          <div>
+            <a
+              className="monogram"
+              href="#home"
+              aria-label="Pratik Sawant, home"
+            >
+              ps<span>.</span>
+            </a>
+            <span>
+              Thoughtfully built by Pratik Sawant.
+              <br />
+              <small>© {new Date().getFullYear()} · Navi Mumbai, India</small>
+            </span>
+          </div>
+          <div className="footer-links">
+            <a
+              href={RESUME_DATA.github}
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="Pratik on GitHub"
+            >
+              <Github size={18} />
+            </a>
+            <a
+              href={RESUME_DATA.linkedin}
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="Pratik on LinkedIn"
+            >
+              <Linkedin size={18} />
+            </a>
+            <a href="#home" className="back-to-top">
+              Back to top <ArrowUp size={15} />
+            </a>
+          </div>
         </div>
-      </div>
-
-      <div className="max-w-7xl mx-auto border-t border-blueprint-rule mt-6 pt-4 flex flex-wrap items-center justify-between text-[10px] text-blueprint-muted">
-        <span>
-          DESIGN LANGUAGE: SWISS EDITORIAL &times; ARCHITECTURAL BLUEPRINT SPECIFICATION (STITCH)
-        </span>
-        <span>ALL TRANSACTIONS BOUNDED &bull; COPYRIGHT &copy; 2026 {RESUME_DATA.name.toUpperCase()}</span>
       </div>
     </footer>
   );
