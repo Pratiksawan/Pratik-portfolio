@@ -1,0 +1,71 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html, body {
+    margin: 0;
+    padding: 0;
+    background-color: #f8f8f5;
+    color: #0c0d10;
+  }
+}
+
+/* Technical Graph Paper Micro Grid */
+.blueprint-grid {
+  background-image: 
+    linear-gradient(to right, rgba(0, 0, 0, 0.04) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(0, 0, 0, 0.04) 1px, transparent 1px);
+  background-size: 20px 20px;
+}
+
+.blueprint-subgrid {
+  background-image: 
+    radial-gradient(circle, rgba(0, 56, 224, 0.25) 1px, transparent 1px);
+  background-size: 16px 16px;
+}
+
+/* Dimensional leader tick marks */
+.dim-line-h {
+  position: relative;
+}
+.dim-line-h::before, .dim-line-h::after {
+  content: '';
+  position: absolute;
+  top: -3px;
+  bottom: -3px;
+  width: 1px;
+  background-color: currentColor;
+}
+.dim-line-h::before { left: 0; }
+.dim-line-h::after { right: 0; }
+
+/* Custom smooth scrollbar for technical code frames */
+::-webkit-scrollbar {
+  width: 5px;
+  height: 5px;
+}
+::-webkit-scrollbar-thumb {
+  background: #c2c3ba;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #0038e0;
+}
+
+/* Print styles for inspection drawer / resume view */
+@media print {
+  body * {
+    visibility: hidden !important;
+  }
+  #inspectionDrawer, #inspectionDrawer * {
+    visibility: visible !important;
+  }
+  #inspectionDrawer {
+    position: absolute !important;
+    left: 0 !important;
+    top: 0 !important;
+    width: 100% !important;
+    background: white !important;
+    padding: 0 !important;
+  }
+}

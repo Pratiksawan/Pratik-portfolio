@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Purging Stale Localhost Service Workers & Caches...</title>
+  <style>
+    body {
+      background-color: #0c0d10;
+      color: #00f0ff;
+      font-family: 'Courier New', monospace;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      margin: 0;
+      text-align: center;
+      padding: 20px;
+    }
+    .box {
+      border: 2px solid #0038e0;
+      padding: 30px;
+      max-width: 600px;
+      background: #11141c;
+      box-shadow: 6px 6px 0px #0038e0;
+    }
+    h1 {
+      font-size: 18px;
+      margin-top: 0;
+      letter-spacing: 2px;
+      color: #f8f8f5;
+    }
+    p {
+      color: #94a3b8;
+      font-size: 13px;
+      line-height: 1.6;
+    }
+    .status {
+      color: #10b981;
+      font-weight: bold;
+      margin-top: 20px;
+      padding: 10px;
+      border: 1px dashed #10b981;
+      background: rgba(16, 185, 129, 0.08);
+    }
+    .btn {
+      display: inline-block;
+      margin-top: 20px;
+      padding: 10px 20px;
+      background: #0038e0;
+      color: white;
+      text-decoration: none;
+      font-weight: bold;
+      font-size: 12px;
+      border: none;
+      cursor: pointer;
+    }
+    .btn:hover {
+      background: #0020a3;
+    }
+  </style>
+</head>
+<body>
+  <div class="box">
+    <h1>⌖ PURGING STALE SERVICE WORKERS & CACHES</h1>
+    <p>Scanning <code>http://localhost:3000</code> for registered service workers and offline PWA caches...</p>
+    <div id="statusLog" class="status">Executing purge commands...</div>
+    <a href="/" class="btn" id="redirectBtn" style="display: none;">Return to Portfolio &rarr;</a>
+  </div>
+
+  <script>
+    async function executePurge() {
+      const log = document.getElementById('statusLog');
+      const btn = document.getElementById('redirectBtn');
+      let swCount = 0;
+      let cacheCount = 0;
+
+      // 1. Unregister all service workers
+      if ('serviceWorker' in navigator) {
+        try {
+          const registrations = await navigator.serviceWorker.getRegistrations();
+          for (let r of registrations) {
+            await r.unregister();
+            swCount++;
+          }
+        } catch (e) {
+          console.error(e);
+        }
+      }
+
+      // 2. Delete all CacheStorage keys
+      if ('caches' in window) {
+        try {
+          const keys = await caches.keys();
+          for (let k of keys) {
+            await caches.delete(k);
+            cacheCount++;
+          }
+        } catch (e) {
+          console.error(e);
+        }
+      }
+
+      // 3. Clear local & session storage
+      try {
+        localStorage.clear();
+        sessionStorage.clear();
+      } catch (e) {}
+
+      log.innerHTML = `✓ PURGE COMPLETE!<br/>Unregistered: <strong>${swCount}</strong> Service Worker(s)<br/>Deleted: <strong>${cacheCount}</strong> Cache Storage(s)<br/>Redirecting to clean portfolio in 2 seconds...`;
+      btn.style.display = 'inline-block';
+
+      setTimeout(() => {
+        window.location.replace('/');
+      }, 1800);
+    }
+
+    executePurge();
+  </script>
+</body>
+</html>

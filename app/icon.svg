@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32">
+  <rect width="32" height="32" fill="#ffffff" stroke="#0c0d10" stroke-width="2" />
+  <text x="16" y="21" font-family="'Courier New', monospace" font-size="14" font-weight="bold" fill="#0038e0" text-anchor="middle">PS</text>
+  <circle cx="4" cy="4" r="1.5" fill="#0c0d10" />
+  <circle cx="28" cy="28" r="1.5" fill="#0c0d10" />
+  <circle cx="28" cy="4" r="1.5" fill="#0c0d10" />
+  <circle cx="4" cy="28" r="1.5" fill="#0c0d10" />
+</svg>
